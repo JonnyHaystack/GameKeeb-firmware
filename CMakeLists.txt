@@ -28,6 +28,7 @@ include_directories(include pico-joybus-comms/include)
 
 add_executable(kbgc
     src/main.cpp
+    src/hid.c
     src/logic.cpp
     src/inputs.cpp
     pico-joybus-comms/src/joybusComms.cpp

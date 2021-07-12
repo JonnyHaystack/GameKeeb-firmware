@@ -10,18 +10,23 @@
 #include "tusb.h"
 
 #define LED_PIN 25
-#define USB_POWER_PIN 24
+
+#define MAX_REPORT  4
+
+#define NUMBER_OF_INPUTS 20
+
+static uint8_t const keycode2ascii[128][2] =  { HID_KEYCODE_TO_ASCII };
 
 const uint32_t us = 125;
 
 const uint8_t gcDataPin = 0;
 
-uint8_t keyboard_addr = 1;
+CFG_TUSB_MEM_SECTION extern hid_keyboard_report_t usb_keyboard_report;
 
+static void process_kbd_report(hid_keyboard_report_t const *report);
+static void process_mouse_report(hid_mouse_report_t const * report);
+static void process_generic_report(uint8_t dev_addr, uint8_t instance, uint8_t const* report, uint16_t len);
 
-CFG_TUSB_MEM_SECTION static hid_keyboard_report_t usb_keyboard_report;
-
-#define NUMBER_OF_INPUTS 20
 const KeyMapping keymap[NUMBER_OF_INPUTS] = {
     {KC_U, &RectangleInput::start},
     {KC_5, &RectangleInput::right},
@@ -45,20 +50,6 @@ const KeyMapping keymap[NUMBER_OF_INPUTS] = {
     {KC_NUMLOCK, &RectangleInput::r}
 };
 
-void tuh_hid_keyboard_mounted_cb(uint8_t dev_addr) {
-  keyboard_addr = dev_addr;
-  tuh_hid_keyboard_get_report(dev_addr, &usb_keyboard_report);
-}
-
-void tuh_hid_keyboard_unmounted_cb(uint8_t dev_addr) {
-}
-
-// invoked ISR context
-void tuh_hid_keyboard_isr(uint8_t dev_addr, xfer_result_t event) {
-  (void)dev_addr;
-  (void)event;
-}
-
 int main() {
   board_init();
 
@@ -70,9 +61,6 @@ int main() {
   gpio_init(LED_PIN);
   gpio_set_dir(LED_PIN, GPIO_OUT);
   gpio_put(LED_PIN, 1);
-
-  gpio_init(USB_POWER_PIN);
-  gpio_set_dir(USB_POWER_PIN, GPIO_IN);
 
   initLogic(ParasolDashing::BAN, SlightSideB::BAN);
   initInputs(keymap, NUMBER_OF_INPUTS);
@@ -86,15 +74,10 @@ int main() {
   while (1) {
     awaitPoll();
 
+    // Poll keyboard
     tuh_task();
 
-    if (tuh_hid_keyboard_is_mounted(keyboard_addr)) {
-      if (!tuh_hid_keyboard_is_busy(keyboard_addr)) {
-        tuh_hid_keyboard_get_report(keyboard_addr, &usb_keyboard_report);
-        ri = getRectangleInput(&usb_keyboard_report);
-        //tuh_hid_keyboard_get_report(keyboard_addr, &usb_keyboard_report);
-      }
-    }
+    ri = getRectangleInput(&usb_keyboard_report);
 
     gcReport = makeReport(ri);
     respondToPoll(&gcReport);
