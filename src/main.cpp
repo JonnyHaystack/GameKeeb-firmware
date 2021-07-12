@@ -28,26 +28,26 @@ static void process_mouse_report(hid_mouse_report_t const * report);
 static void process_generic_report(uint8_t dev_addr, uint8_t instance, uint8_t const* report, uint16_t len);
 
 const KeyMapping keymap[NUMBER_OF_INPUTS] = {
-    {KC_U, &RectangleInput::start},
-    {KC_5, &RectangleInput::right},
-    {KC_4, &RectangleInput::down},
-    {KC_3, &RectangleInput::left},
     {KC_Q, &RectangleInput::l},
+    {KC_3, &RectangleInput::left},
+    {KC_4, &RectangleInput::down},
+    {KC_5, &RectangleInput::right},
     {KC_B, &RectangleInput::mx},
     {KC_SPACE, &RectangleInput::my},
-    {KC_KP_1, &RectangleInput::cUp},
+    {KC_U, &RectangleInput::start},
     {KC_UP, &RectangleInput::cLeft},
-    {KC_RIGHT, &RectangleInput::a},
-    {KC_DOWN, &RectangleInput::cDown},
     {KC_KP_0, &RectangleInput::cRight},
-    {KC_KP_PLUS, &RectangleInput::up},
-    {KC_KP_ASTERISK, &RectangleInput::ms},
-    {KC_KP_9, &RectangleInput::z},
-    {KC_NO, &RectangleInput::ls},
-    {KC_KP_8, &RectangleInput::x},
-    {KC_KP_SLASH, &RectangleInput::y},
+    {KC_DOWN, &RectangleInput::cDown},
+    {KC_KP_1, &RectangleInput::cUp},
+    {KC_RIGHT, &RectangleInput::a},
     {KC_KP_7, &RectangleInput::b},
-    {KC_NUMLOCK, &RectangleInput::r}
+    {KC_KP_8, &RectangleInput::x},
+    {KC_KP_9, &RectangleInput::z},
+    {KC_KP_PLUS, &RectangleInput::up},
+    {KC_NUMLOCK, &RectangleInput::r},
+    {KC_KP_SLASH, &RectangleInput::y},
+    {KC_NO, &RectangleInput::ls},
+    {KC_KP_ASTERISK, &RectangleInput::ms},
 };
 
 int main() {
