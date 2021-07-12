@@ -28,8 +28,8 @@ struct RectangleInput {
 };
 
 struct KeyMapping {
-  uint8_t keycode;
   bool RectangleInput::*buttonState;
+  uint8_t keycode;
 };
 
 /* Initializes the keymap */
