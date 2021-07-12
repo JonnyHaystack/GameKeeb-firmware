@@ -2,25 +2,41 @@
 #define INPUTS_HPP
 
 #include "pico/stdlib.h"
+#include "tusb.h"
 
 struct RectangleInput {
-    bool a; bool b; bool x; bool y; bool z;
-    bool l; bool r; bool ls; bool ms;
-    bool mx; bool my;
-    bool start;
-    bool left; bool right; bool up; bool down;
-    bool cLeft; bool cRight; bool cUp; bool cDown;
+  bool a;
+  bool b;
+  bool x;
+  bool y;
+  bool z;
+  bool l;
+  bool r;
+  bool ls;
+  bool ms;
+  bool mx;
+  bool my;
+  bool start;
+  bool left;
+  bool right;
+  bool up;
+  bool down;
+  bool cLeft;
+  bool cRight;
+  bool cUp;
+  bool cDown;
 };
 
-struct PinMapping {
-    uint8_t pin;
-    bool RectangleInput::* ptrToMember;
+struct KeyMapping {
+  uint8_t keycode;
+  bool RectangleInput::*buttonState;
 };
 
-/* Initializes the B0XX/F1 pin mapping */
-void initInputs(const PinMapping *pinMappings, size_t pinMappingsLength);
+/* Initializes the keymap */
+void initInputs(const KeyMapping *keymap, size_t keymapLength);
 
-/* Takes a snapshot of the pins and provide the corresponding RectangleInput */
-RectangleInput getRectangleInput();
+/* Read keycodes from keyboard report and provide the corresponding
+ * RectangleInput */
+RectangleInput getRectangleInput(hid_keyboard_report_t const *p_new_report);
 
 #endif

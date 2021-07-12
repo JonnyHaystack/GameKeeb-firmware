@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 include(pico_sdk_import.cmake)
 
-project(rectangle CXX C)
+project(kbgc CXX C)
 
 pico_sdk_init()
 
@@ -26,15 +26,13 @@ endif()
 
 include_directories(include pico-joybus-comms/include)
 
-add_executable(rectangle
+add_executable(kbgc
     src/main.cpp
     src/logic.cpp
     src/inputs.cpp
-    src/usb/lowlevel.c
-    src/usb/logic.cpp
     pico-joybus-comms/src/joybusComms.cpp
 )
 
-target_link_libraries(rectangle pico_stdlib hardware_resets hardware_irq)
+target_link_libraries(kbgc pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board)
 
-pico_add_extra_outputs(rectangle)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+pico_add_extra_outputs(kbgc)
