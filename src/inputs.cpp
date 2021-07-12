@@ -10,29 +10,31 @@ void initInputs(const KeyMapping *keymap, size_t keymapLength) {
     keymapLength_ = keymapLength;
 }
 
-RectangleInput getRectangleInput(hid_keyboard_report_t const *p_new_report) {
+RectangleInput getRectangleInput(hid_keyboard_report_t const *kbd_report) {
     RectangleInput ri;
 
     for (int button = 0; button < keymapLength_; ++button) {
         ri.*keymap_[button].buttonState = false;
     }
 
-    for (uint8_t i = 0; i < 6; i++) {
-        uint8_t keycode = p_new_report->keycode[i];
-        // If keycode is non-zero
-        if (keycode) {
-            for (int button = 0; button < keymapLength_; ++button) {
-                if (keymap_[button].keycode == keycode) {
-                    ri.*keymap_[button].buttonState = true;
-                }
+    for (int button = 0; button < keymapLength_; ++button) {
+        // If button keycode >= E0 then the button is mapped to a modifier
+        if (keymap_[button].keycode >= 0xE0) {
+            // Create bitmask from the modifier keycode to check the
+            // corresponding bit in the modifier byte
+            uint8_t bitmask = 1 << (keymap_[button].keycode & 0x0F);
+            if (kbd_report->modifier & bitmask) {
+                ri.*keymap_[button].buttonState = true;
+            }
+            continue;
+        }
+        for (uint8_t i = 0; i < 6; i++) {
+            uint8_t keycode = kbd_report->keycode[i];
+            if (keymap_[button].keycode == keycode) {
+                ri.*keymap_[button].buttonState = true;
             }
         }
     }
-
-    // Key to controller state translation
-    //for (int pinNo = 0; pinNo < keymapLength_; ++pinNo) {
-        //ri.*keymap_[pinNo].buttonState = key_pressed;
-    //}
 
     return ri;
 }
