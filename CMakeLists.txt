@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 include(pico_sdk_import.cmake)
 
-project(kbgc CXX C)
+project(GameKeeb CXX C)
 
 pico_sdk_init()
 
@@ -26,7 +26,7 @@ endif()
 
 include_directories(include pico-joybus-comms/include)
 
-add_executable(kbgc
+add_executable(GameKeeb
     src/main.cpp
     src/hid.c
     src/logic.cpp
@@ -34,6 +34,6 @@ add_executable(kbgc
     pico-joybus-comms/src/joybusComms.cpp
 )
 
-target_link_libraries(kbgc pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board)
+target_link_libraries(GameKeeb pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board)
 
-pico_add_extra_outputs(kbgc)
+pico_add_extra_outputs(GameKeeb)
