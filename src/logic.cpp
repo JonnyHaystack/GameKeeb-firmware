@@ -155,10 +155,15 @@ GCReport makeReport(const RectangleInput &rectangleInput) {
 
     /* Dpad */
     if (ri.mx && ri.my) {
-        gcReport.dDown = ri.cDown;
-        gcReport.dLeft = ri.cLeft;
-        gcReport.dUp = ri.cUp;
-        gcReport.dRight = ri.cRight;
+        gcReport.dDown = ri.cDown || ri.dDown;
+        gcReport.dLeft = ri.cLeft || ri.dLeft;
+        gcReport.dUp = ri.cUp || ri.dUp;
+        gcReport.dRight = ri.cRight || ri.dRight;
+    } else {
+        gcReport.dDown = ri.dDown;
+        gcReport.dLeft = ri.dLeft;
+        gcReport.dUp = ri.dUp;
+        gcReport.dRight = ri.dRight;
     }
 
     /* Triggers */

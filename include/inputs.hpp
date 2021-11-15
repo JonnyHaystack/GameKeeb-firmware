@@ -25,6 +25,10 @@ struct RectangleInput {
   bool cRight;
   bool cUp;
   bool cDown;
+  bool dLeft;
+  bool dRight;
+  bool dUp;
+  bool dDown;
 };
 
 struct KeyMapping {
