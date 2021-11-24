@@ -50,6 +50,14 @@ void tuh_hid_mount_cb(
     );
     printf("HID has %u reports \r\n", hid_info[instance].report_count);
   }
+
+  // request to receive report
+  // tuh_hid_report_received_cb() will be invoked when report is available
+  sleep_ms(100);
+  if ( !tuh_hid_receive_report(dev_addr, instance) )
+  {
+    printf("Error: cannot request to receive report\r\n");
+  }
 }
 
 // Invoked when device with hid interface is un-mounted
@@ -82,6 +90,11 @@ void tuh_hid_report_received_cb(
       // parsed report info
       process_generic_report(dev_addr, instance, report, len);
     break;
+  }
+
+  if ( !tuh_hid_receive_report(dev_addr, instance) )
+  {
+    printf("Error: cannot request to receive report\r\n");
   }
 }
 

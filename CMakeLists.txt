@@ -31,9 +31,11 @@ add_executable(GameKeeb
     src/hid.c
     src/logic.cpp
     src/inputs.cpp
+    src/keymap.cpp
+    src/runtime_remapping.cpp
     pico-joybus-comms/src/joybusComms.cpp
 )
 
-target_link_libraries(GameKeeb pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board)
+target_link_libraries(GameKeeb pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board hardware_flash)
 
 pico_add_extra_outputs(GameKeeb)

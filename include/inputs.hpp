@@ -43,4 +43,6 @@ void initInputs(const KeyMapping *keymap, size_t keymapLength);
  * RectangleInput */
 RectangleInput getRectangleInput(hid_keyboard_report_t const *p_new_report);
 
+uint8_t findFirstPressedKey(hid_keyboard_report_t const *kbd_report);
+
 #endif
