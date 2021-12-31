@@ -7,10 +7,10 @@
 #include "persistence/pages/runtime_remapping.hpp"
 
 const KeyMapping defaultKeymap[24] = {
-    {&RectangleInput::l, KC_TAB},
     {&RectangleInput::left, KC_2},
-    {&RectangleInput::down, KC_3},
     {&RectangleInput::right, KC_4},
+    {&RectangleInput::down, KC_3},
+    {&RectangleInput::up, KC_RBRACKET},
     {&RectangleInput::mx, KC_V},
     {&RectangleInput::my, KC_B},
     {&RectangleInput::start, KC_7},
@@ -21,10 +21,10 @@ const KeyMapping defaultKeymap[24] = {
     {&RectangleInput::a, KC_M},
     {&RectangleInput::b, KC_O},
     {&RectangleInput::x, KC_P},
-    {&RectangleInput::z, KC_LBRACKET},
-    {&RectangleInput::up, KC_RBRACKET},
-    {&RectangleInput::r, KC_9},
     {&RectangleInput::y, KC_0},
+    {&RectangleInput::z, KC_LBRACKET},
+    {&RectangleInput::l, KC_TAB},
+    {&RectangleInput::r, KC_9},
     {&RectangleInput::ls, KC_MINUS},
     {&RectangleInput::ms, KC_EQUAL},
     {&RectangleInput::dLeft, KC_LEFT},
