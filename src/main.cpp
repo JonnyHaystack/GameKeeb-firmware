@@ -52,7 +52,7 @@ int main() {
 
     // Poll keyboard
     tuh_task();
-    if (!keyboard_mounted && usb_keyboard_report.keycode[0] != 0 ) {
+    if (!keyboard_mounted && usb_keyboard_report.keycode[0] != 0) {
         keyboard_mounted = true;
         if (findFirstPressedKey(&usb_keyboard_report) == KC_ESC) {
             sleep_ms(3000);
