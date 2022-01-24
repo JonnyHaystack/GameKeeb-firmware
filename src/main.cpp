@@ -21,7 +21,7 @@ const uint32_t us = 125;
 
 const uint8_t gcDataPin = 0;
 
-bool keyboard_mounted = false;
+bool mode_selected = false;
 
 int main() {
   board_init();
@@ -52,12 +52,15 @@ int main() {
 
     // Poll keyboard
     tuh_task();
-    if (!keyboard_mounted && usb_keyboard_report.keycode[0] != 0) {
-        keyboard_mounted = true;
-        if (findFirstPressedKey(&usb_keyboard_report) == KC_ESC) {
-            sleep_ms(3000);
-            remap();
-        }
+    if (!mode_selected) {
+      uint8_t key = findFirstPressedKey(&usb_keyboard_report);
+      if (key != 0) {
+          if (key == KC_ESC) {
+              sleep_ms(3000);
+              remap();
+          }
+          mode_selected = true;
+      }
     }
 
     ri = getRectangleInput(&usb_keyboard_report);
