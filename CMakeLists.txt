@@ -36,6 +36,14 @@ add_executable(GameKeeb
     pico-joybus-comms/src/joybusComms.cpp
 )
 
-target_link_libraries(GameKeeb pico_stdlib hardware_resets hardware_irq tinyusb_host tinyusb_board hardware_flash)
+target_link_libraries(GameKeeb
+    pico_stdlib
+    hardware_resets
+    hardware_irq
+    tinyusb_host
+    tinyusb_board
+    hardware_flash
+    pico_multicore
+)
 
 pico_add_extra_outputs(GameKeeb)

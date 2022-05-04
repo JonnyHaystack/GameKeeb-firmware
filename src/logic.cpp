@@ -34,12 +34,9 @@ Coords coords(float xFloat, float yFloat) {
     return r;
 }
 
-GCReport gcReport;
-RectangleInput ri;
 GCReport makeReport(const RectangleInput &rectangleInput) {
-
-    ri = rectangleInput; // local alterable copy
-    gcReport = defaultGcReport;
+    RectangleInput ri = rectangleInput; // local alterable copy
+    GCReport gcReport = defaultGcReport;
 
     /* 2IP No reactivation */
     

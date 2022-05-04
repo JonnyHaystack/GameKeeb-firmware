@@ -1,4 +1,7 @@
 #include "hardware/gpio.h"
+#include "pico/bootrom.h"
+#include "pico/multicore.h"
+#include "pico/time.h"
 
 #include "bsp/board.h"
 #include "tusb.h"
@@ -11,17 +14,40 @@
 #include "logic.hpp"
 #include "runtime_remapping.hpp"
 
+#define REV1 1
+#define REV2 2
+#define REV2_2 2.2
+
+#define REVISION REV2_2
+#define WONKY false
+
+#if REVISION == REV1
+#define GC_DATA_PIN 0
+#elif REVISION == REV2 && !WONKY
+#define GC_DATA_PIN 0
+#define GC_3V3_PIN 1
+#elif REVISION == REV2 && WONKY
+#define GC_DATA_PIN 1
+#define GC_3V3_PIN 0
+#elif REVISION == REV2_2
+#define GC_DATA_PIN 28
+#define GC_3V3_PIN 27
+#endif
+
 #define LED_PIN 25
 
 #define NUMBER_OF_INPUTS 24
+
+void joybus_loop();
 
 CFG_TUSB_MEM_SECTION extern hid_keyboard_report_t usb_keyboard_report;
 
 const uint32_t us = 125;
 
-const uint8_t gcDataPin = 0;
-
 bool mode_selected = false;
+
+RectangleInput rectangleInput;
+GCReport gcReport;
 
 int main() {
   board_init();
@@ -35,21 +61,26 @@ int main() {
   gpio_set_dir(LED_PIN, GPIO_OUT);
   gpio_put(LED_PIN, 1);
 
+#if REVISION >= REV2
+  gpio_init(GC_3V3_PIN);
+  gpio_set_dir(GC_3V3_PIN, GPIO_IN);
+  gpio_pull_down(GC_3V3_PIN);
+
+  sleep_ms(200);
+
+  if (!gpio_get(GC_3V3_PIN)) reset_usb_boot(0, 0);
+#endif
+
   initLogic(ParasolDashing::BAN, SlightSideB::BAN);
 
   KeyMapping *keymap = getKeymap();
   initInputs(keymap, NUMBER_OF_INPUTS);
 
-  initComms(gcDataPin, us);
+  multicore_launch_core1(joybus_loop);
 
   tusb_init();
 
-  GCReport gcReport;
-  RectangleInput ri;
-
   while (1) {
-    awaitPoll();
-
     // Poll keyboard
     tuh_task();
     if (!mode_selected) {
@@ -63,11 +94,22 @@ int main() {
       }
     }
 
-    ri = getRectangleInput(&usb_keyboard_report);
+    // Map keyboard inputs to rectangle button state.
+    rectangleInput = getRectangleInput(&usb_keyboard_report);
 
-    gcReport = makeReport(ri);
-    respondToPoll(&gcReport);
+    // Map rectangle button state to GC controller state.
+    gcReport = makeReport(rectangleInput);
   }
 
   return 1;
+}
+
+void joybus_loop() {
+  initComms(GC_DATA_PIN, us);
+
+  while (1) {
+    awaitPoll();
+    wait2Us();
+    respondToPoll(&gcReport);
+  }
 }
