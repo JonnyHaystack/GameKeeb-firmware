@@ -5,7 +5,7 @@
 
 #include "inputs.hpp"
 
-#include "joybusComms.hpp"
+#include "gamecube_definitions.h"
 
 enum class ParasolDashing { BAN, DONT_BAN };
 enum class SlightSideB { BAN, DONT_BAN };
@@ -14,6 +14,6 @@ enum class SlightSideB { BAN, DONT_BAN };
 void initLogic(ParasolDashing parasolDashingConfig, SlightSideB slightSideBConfig);
 
 /* Makes a B0XX/F1 report from the provided RectangleInput */
-GCReport makeReport(const RectangleInput &ri);
+void makeReport(const RectangleInput &ri, gc_report_t *report);
 
 #endif

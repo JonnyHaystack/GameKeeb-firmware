@@ -1,5 +1,5 @@
+#include "GamecubeConsole.hpp"
 #include "inputs.hpp"
-#include "joybusComms.hpp"
 #include "keycode.h"
 #include "keymap.hpp"
 #include "logic.hpp"
@@ -8,15 +8,16 @@
 
 #include "bsp/board.h"
 #include "hardware/gpio.h"
+#include "hardware/pio.h"
 #include "pico/bootrom.h"
 #include "pico/multicore.h"
 #include "pico/time.h"
 
-#define REV1 1
-#define REV2 2
-#define REV2_2 2.2
+#define REV1 10
+#define REV2 20
+#define REV2_2 22
 
-#define REVISION REV2_2
+#define REVISION REV2
 #define WONKY false
 
 #if REVISION == REV1
@@ -45,7 +46,7 @@ const uint32_t us = 125;
 bool mode_selected = false;
 
 RectangleInput rectangleInput;
-GCReport gcReport;
+gc_report_t gcReport = default_gc_report;
 
 int main() {
     board_init();
@@ -99,18 +100,17 @@ int main() {
         rectangleInput = getRectangleInput(&usb_keyboard_report);
 
         // Map rectangle button state to GC controller state.
-        gcReport = makeReport(rectangleInput);
+        makeReport(rectangleInput, &gcReport);
     }
 
     return 1;
 }
 
 void joybus_loop() {
-    initComms(GC_DATA_PIN, us);
+    GamecubeConsole *gc = new GamecubeConsole(GC_DATA_PIN, pio0);
 
     while (1) {
-        awaitPoll();
-        wait2Us();
-        respondToPoll(&gcReport);
+        gc->WaitForPoll();
+        gc->SendReport(&gcReport);
     }
 }

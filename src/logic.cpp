@@ -34,9 +34,8 @@ Coords coords(float xFloat, float yFloat) {
     return r;
 }
 
-GCReport makeReport(const RectangleInput &rectangleInput) {
+void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
     RectangleInput ri = rectangleInput; // local alterable copy
-    GCReport gcReport = defaultGcReport;
 
     /* 2IP No reactivation */
     
@@ -128,8 +127,8 @@ GCReport makeReport(const RectangleInput &rectangleInput) {
     if (horizontal && !readRight) xy.x = oppositeCoord(xy.x);
     if (vertical && !readUp) xy.y = oppositeCoord(xy.y);
 
-    gcReport.xStick = xy.x;
-    gcReport.yStick = xy.y;
+    report->stick_x = xy.x;
+    report->stick_y = xy.y;
 
     /* C-Stick */
     
@@ -147,35 +146,33 @@ GCReport makeReport(const RectangleInput &rectangleInput) {
     if (cHorizontal && ri.cLeft) cxy.x = oppositeCoord(cxy.x);
     if (cVertical && ri.cDown) cxy.y = oppositeCoord(cxy.y);
 
-    gcReport.cxStick = cxy.x;
-    gcReport.cyStick = cxy.y;
+    report->cstick_x = cxy.x;
+    report->cstick_y = cxy.y;
 
     /* Dpad */
     if (ri.mx && ri.my) {
-        gcReport.dDown = ri.cDown || ri.dDown;
-        gcReport.dLeft = ri.cLeft || ri.dLeft;
-        gcReport.dUp = ri.cUp || ri.dUp;
-        gcReport.dRight = ri.cRight || ri.dRight;
+        report->dpad_down = ri.cDown || ri.dDown;
+        report->dpad_left = ri.cLeft || ri.dLeft;
+        report->dpad_up = ri.cUp || ri.dUp;
+        report->dpad_right = ri.cRight || ri.dRight;
     } else {
-        gcReport.dDown = ri.dDown;
-        gcReport.dLeft = ri.dLeft;
-        gcReport.dUp = ri.dUp;
-        gcReport.dRight = ri.dRight;
+        report->dpad_down = ri.dDown;
+        report->dpad_left = ri.dLeft;
+        report->dpad_up = ri.dUp;
+        report->dpad_right = ri.dRight;
     }
 
     /* Triggers */
-    gcReport.analogL = ri.l ? 140 : ri.ms ? 94 : ri.ls ? 49 : 0;
-    gcReport.analogR = ri.r ? 140 : 0;
+    report->l_analog = ri.l ? 140 : ri.ms ? 94 : ri.ls ? 49 : 0;
+    report->r_analog = ri.r ? 140 : 0;
 
     /* Buttons */
-    gcReport.a = ri.a;
-    gcReport.b = ri.b;
-    gcReport.x = ri.x;
-    gcReport.y = ri.y;
-    gcReport.z = ri.z;
-    gcReport.l = ri.l;
-    gcReport.r = ri.r;
-    gcReport.start = ri.start;
-
-    return gcReport;
+    report->a = ri.a;
+    report->b = ri.b;
+    report->x = ri.x;
+    report->y = ri.y;
+    report->z = ri.z;
+    report->l = ri.l;
+    report->r = ri.r;
+    report->start = ri.start;
 }
