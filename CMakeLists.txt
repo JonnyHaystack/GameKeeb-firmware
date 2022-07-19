@@ -24,7 +24,10 @@ else()
     message("Git not found or not a git repo")
 endif()
 
-include_directories(include lib/joybus-pio/include)
+include_directories(
+    include
+    lib/joybus-pio/include
+)
 
 add_executable(GameKeeb
     src/main.cpp
@@ -39,13 +42,13 @@ add_executable(GameKeeb
 
 target_link_libraries(GameKeeb
     pico_stdlib
+    pico_multicore
     hardware_resets
     hardware_irq
-    tinyusb_host
-    tinyusb_board
     hardware_flash
     hardware_pio
-    pico_multicore
+    tinyusb_host
+    tinyusb_board
 )
 
 pico_add_extra_outputs(GameKeeb)
