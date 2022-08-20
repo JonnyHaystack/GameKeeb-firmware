@@ -41,8 +41,6 @@ void joybus_loop();
 
 CFG_TUSB_MEM_SECTION extern hid_keyboard_report_t usb_keyboard_report;
 
-const uint32_t us = 125;
-
 bool mode_selected = false;
 
 RectangleInput rectangleInput;
@@ -51,8 +49,8 @@ gc_report_t gcReport = default_gc_report;
 int main() {
     board_init();
 
-    // Clock at 125MHz
-    set_sys_clock_khz(us * 1000, true);
+    // Clock at 130MHz
+    set_sys_clock_khz(130'000, true);
 
     stdio_init_all();
 
