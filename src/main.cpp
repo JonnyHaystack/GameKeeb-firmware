@@ -17,7 +17,7 @@
 #define REV2 20
 #define REV2_2 22
 
-#define REVISION REV2
+#define REVISION REV2_2
 #define WONKY false
 
 #if REVISION == REV1

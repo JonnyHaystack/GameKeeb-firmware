@@ -34,7 +34,7 @@ add_executable(GameKeeb
     src/hid.c
     src/logic.cpp
     src/inputs.cpp
-    src/keymap.cpp
+    src/keymap-hork.cpp
     src/runtime_remapping.cpp
     lib/joybus-pio/src/GamecubeConsole.cpp
     lib/joybus-pio/src/joybus.c
