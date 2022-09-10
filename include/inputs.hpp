@@ -15,6 +15,7 @@ struct RectangleInput {
   bool ls;
   bool ms;
   bool mx;
+  bool mx2;
   bool my;
   bool start;
   bool left;

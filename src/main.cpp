@@ -35,7 +35,7 @@
 
 #define LED_PIN 25
 
-#define NUMBER_OF_INPUTS 24
+#define NUMBER_OF_INPUTS 25
 
 void joybus_loop();
 

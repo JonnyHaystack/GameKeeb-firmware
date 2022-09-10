@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
+#set(PICO_SDK_FETCH_FROM_GIT on)
+
 include(pico_sdk_import.cmake)
 
 project(GameKeeb CXX C)
@@ -34,7 +36,7 @@ add_executable(GameKeeb
     src/hid.c
     src/logic.cpp
     src/inputs.cpp
-    src/keymap.cpp
+    src/keymap-MsShac0la.cpp
     src/runtime_remapping.cpp
     lib/joybus-pio/src/GamecubeConsole.cpp
     lib/joybus-pio/src/joybus.c

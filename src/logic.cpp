@@ -69,14 +69,15 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
 
     Coords xy;
 
+    bool mx = ri.mx || ri.mx2;
     if (vertical && horizontal) {
         if (ri.l || ri.r) {
-            if (ri.mx == ri.my) xy = coords(0.7, readUp ? 0.7 : 0.6875);
-            else if (ri.mx) xy = coords(0.6375, 0.375);
+            if (mx == ri.my) xy = coords(0.7, readUp ? 0.7 : 0.6875);
+            else if (mx) xy = coords(0.6375, 0.375);
             else xy = (banParasolDashing && readUp) ? coords(0.475, 0.875) : coords(0.5, 0.85);
         }
-        else if (ri.b && (ri.mx != ri.my)) {
-            if (ri.mx) {
+        else if (ri.b && (mx != ri.my)) {
+            if (mx) {
                 if (ri.cDown) xy = coords(0.9125, 0.45);
                 else if (ri.cLeft) xy = coords(0.85, 0.525);
                 else if (ri.cUp) xy = coords(0.7375, 0.5375);
@@ -91,8 +92,8 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
                 else xy = coords(0.3875, 0.9125);
             }
         }
-        else if (ri.mx != ri.my) {
-            if (ri.mx) {
+        else if (mx != ri.my) {
+            if (mx) {
                 if (ri.cDown) xy = coords(0.7, 0.3625);
                 else if (ri.cLeft) xy = coords(0.7875, 0.4875);
                 else if (ri.cUp) xy = coords(0.7, 0.5125);
@@ -106,18 +107,21 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
                 else if (ri.cRight) xy = coords(0.6375, 0.7625);
                 else xy = coords(0.3125, 0.7375);
             }
+        } else if (horizontal && vertical && ri.up) {
+            xy = coords(0.75, 0.65);
+        } else {
+            xy = coords(0.7, 0.7);
         }
-        else xy = coords(0.7,0.7);
     }
     else if (horizontal) {
-        if (ri.mx == ri.my) xy = coords(1.0, 0.0);
-        else if (ri.mx) xy =  (rectangleInput.left && rectangleInput.right) ? coords(1.0, 0.0) : coords(0.6625, 0.0);
+        if (mx == ri.my) xy = coords(1.0, 0.0);
+        else if (mx) xy =  (rectangleInput.left && rectangleInput.right) ? coords(1.0, 0.0) : coords(0.6625, 0.0);
         else xy = ((banSlightSideB && ri.b) || rectangleInput.left && rectangleInput.right) ? coords(1.0, 0.0) : coords(0.3375, 0.0);
         // Read the original rectangleInput to bypass SOCD
     }
     else if (vertical) {
-        if (ri.mx == ri.my) xy = coords(0.0, 1.0);
-        else if (ri.mx) xy=coords(0.0, 0.5375);
+        if (mx == ri.my) xy = coords(0.0, 1.0);
+        else if (mx) xy=coords(0.0, 0.5375);
         else xy = coords(0.0, 0.7375);
     }
     else {
@@ -137,9 +141,9 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
 
     Coords cxy;
 
-    if (ri.mx && ri.my) cxy = coords(0.0, 0.0);
+    if (mx && ri.my) cxy = coords(0.0, 0.0);
     else if (cVertical && cHorizontal) cxy = coords(0.525, 0.85);
-    else if (cHorizontal) cxy = ri.mx ? coords(0.8375, readUp ? 0.3125 : -0.3125) : coords(1.0, 0.0);
+    else if (cHorizontal) cxy = mx ? coords(0.8375, readUp ? 0.3125 : -0.3125) : coords(1.0, 0.0);
     else if (cVertical) cxy = coords(0.0, 1.0);
     else cxy = coords(0.0, 0.0);
 
@@ -150,7 +154,7 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
     report->cstick_y = cxy.y;
 
     /* Dpad */
-    if (ri.mx && ri.my) {
+    if (mx && ri.my) {
         report->dpad_down = ri.cDown || ri.dDown;
         report->dpad_left = ri.cLeft || ri.dLeft;
         report->dpad_up = ri.cUp || ri.dUp;
