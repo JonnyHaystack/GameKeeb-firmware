@@ -14,8 +14,8 @@ const KeyMapping defaultKeymap[25] = {
     { &RectangleInput::up,     KC_W     },
 
     { &RectangleInput::mx,     KC_C     },
-    { &RectangleInput::mx2,    KC_LCTL  },
-    { &RectangleInput::my,     KC_N     },
+    { &RectangleInput::mx2,    KC_N     },
+    { &RectangleInput::my,     KC_LCTL  },
 
     { &RectangleInput::start,  KC_ENT   },
 
