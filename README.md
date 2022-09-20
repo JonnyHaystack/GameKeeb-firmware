@@ -15,7 +15,11 @@ issues (I dunno I'm not an electrician).
 
 ### How to program your board:
 
-- Download the latest release (on the right of the Github page)
+- Download the latest [release](https://github.com/JonnyHaystack/GameKeeb-firmware/releases) .uf2 file for your hardware revision
+  - **Rev 1**: The original, larger, Pico-based design (unless wiring 3.3V to GP1 then use rev2 firmware)
+  - **Rev 2**: The first two revisions of the smaller adapters with custom PCBs - there is a rev2.0 and rev2.1 which are the same except that 2.1 has an LED and 2.0 doesn't. Rev2 has the same pinout as Rev1, but with the GameCube's 3.3V line wired to a GPIO pin so that it can automatically detect if it's plugged into GameCube, and if not it will reboot into bootsel mode so that you can install updates by plugging it into a PC without having to press the bootsel button.
+  - **Rev2.2**: the same as 2.1 but I made some changes to the pin mapping to make the trace routing cleaner, hence it requires a different firmware version
+  - Flashing the wrong firmware version doesn't do any harm, so if you're not sure you can always go with trial and error
 - Plug in your Raspberry Pico to your computer via USB while holding the "BOOTSEL" white button on the board.
 - The board should appear as an external drive. Put the .uf2 of your choice in there. The board should disconnect and be ready for use.
 
