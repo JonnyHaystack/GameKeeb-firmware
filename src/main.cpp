@@ -86,6 +86,7 @@ int main() {
             if (key != 0) {
                 if (key == KC_ESC) {
                     sleep_ms(3000);
+                    multicore_reset_core1();
                     remap();
                 }
                 mode_selected = true;
