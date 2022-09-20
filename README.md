@@ -23,7 +23,30 @@ issues (I dunno I'm not an electrician).
 
 Plug your keyboard into the GameKeeb and then plug the GameKeeb into a GameCube/Wii console or a GameCube controller adapter. Next, without having pressing any other keys, press Escape (don't hold it down) and wait 3 seconds. You should see the LED inside the adapter turn off (if your GameKeeb revision has an LED) and the controller will disconnect from the console. Next, press keys one at a time in the following order to map your desired controls:
 
-`Left, Right, Down, Up, Mod X, Mod Y, Start, C-Left, C-Right, C-Down, C-Up, A, B, X, Y, Z, L, R, light shield, mid shield, D-Pad Left, D-Pad Right, D-Pad Down, D-Pad Up`
+1. Left
+2. Right
+3. Down
+4. Up
+5. Mod X
+6. Mod Y
+7. Start
+8. C-Left
+9. C-Right
+10. C-Down
+11. C-Up
+12. A
+13. B
+14. X
+15. Y
+16. Z
+17. L
+18. R
+19. Light shield - light analog R press (for SSBM)
+20. Mid shield - mid analog R press (for SSBM)
+21. D-Pad Left
+22. D-Pad Right
+23. D-Pad Down
+24. D-Pad Up
 
 Any unwanted inputs can be mapped to a single out-of-the-way key. After completing the sequence, the LED (if present) should blink on and off continuously on its own. At this point, you can unplug the GameKeeb and plug it back in, and it should have your new layout on it.
 
