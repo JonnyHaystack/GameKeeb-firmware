@@ -3,15 +3,17 @@
 Firmware for [GameKeeb](https://github.com/JonnyHaystack/GameKeeb) - keyboard to
 GameCube adapter. Hardware information is in the main repo.
 
+### Licensing
+
 This is a fork of Arte's
 [pico-rectangle](https://github.com/JulienBernard3383279/pico-rectangle)
-firmware.
+firmware which is licensed All Rights Reserved by Arte, and although several parts of the code have been replaced or rewritten, as of right now it still contains some significant parts from an old version of pico-rectangle. Explicit permission was obtained from Arte to use parts of his code in this way. As such, please do not distribute modified versions/forks of this firmware.
 
 ### Safety information
 
 You probably shouldn't have this adapter plugged into PC via USB and via its
 Gamecube port at the same time in case the different grounds cause electrical
-issues (I dunno I'm not an electrician).
+issues (probably not that high risk but I'm not an electrician).
 
 ### How to program your board:
 
