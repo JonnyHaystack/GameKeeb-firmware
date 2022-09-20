@@ -65,4 +65,4 @@ it doesn't supply the 5V needed to power the keyboard.
 
 ### Contact
 
-Discord: Haystack#1872
+[Discord](https://discord.gg/PreBbFgxxY)
