@@ -37,27 +37,16 @@ Coords coords(float xFloat, float yFloat) {
 void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
     RectangleInput ri = rectangleInput; // local alterable copy
 
-    /* 2IP No reactivation */
+    /* SOCD Neutral */
     
-    if (left_wasPressed && ri.left && ri.right && !right_wasPressed) left_outlawUntilRelease=true;
-    if (right_wasPressed && ri.left && ri.right && !left_wasPressed) right_outlawUntilRelease=true;
-    if (up_wasPressed && ri.up && ri.down && !down_wasPressed) up_outlawUntilRelease=true;
-    if (down_wasPressed && ri.up && ri.down && !up_wasPressed) down_outlawUntilRelease=true;
-
-    if (!ri.left) left_outlawUntilRelease=false;
-    if (!ri.right) right_outlawUntilRelease=false;
-    if (!ri.up) up_outlawUntilRelease=false;
-    if (!ri.down) down_outlawUntilRelease=false;
-
-    left_wasPressed = ri.left;
-    right_wasPressed = ri.right;
-    up_wasPressed = ri.up;
-    down_wasPressed = ri.down;
-
-    if (left_outlawUntilRelease) ri.left=false;
-    if (right_outlawUntilRelease) ri.right=false;
-    if (up_outlawUntilRelease) ri.up=false;
-    if (down_outlawUntilRelease) ri.down=false;
+    if (ri.left && ri.right) {
+        ri.left = false;
+        ri.right = false;
+    }
+    if (ri.down && ri.up) {
+        ri.down = false;
+        ri.up = false;
+    }
     
     /* Stick */
 
