@@ -11,6 +11,13 @@ void initLogic(ParasolDashing parasolDashingConfig, SlightSideB slightSideBConfi
     banSlightSideB = slightSideBConfig == SlightSideB::BAN;
 }
 
+typedef enum {
+    SOCD_NEUTRAL,
+    SOCD_2IP_NO_REAC,
+} SocdType;
+
+const SocdType socd = SOCD_2IP_NO_REAC;
+
 // 2 IP declarations
 bool left_wasPressed = false;
 bool right_wasPressed = false;
@@ -37,27 +44,38 @@ Coords coords(float xFloat, float yFloat) {
 void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
     RectangleInput ri = rectangleInput; // local alterable copy
 
-    /* 2IP No reactivation */
-    
-    if (left_wasPressed && ri.left && ri.right && !right_wasPressed) left_outlawUntilRelease=true;
-    if (right_wasPressed && ri.left && ri.right && !left_wasPressed) right_outlawUntilRelease=true;
-    if (up_wasPressed && ri.up && ri.down && !down_wasPressed) up_outlawUntilRelease=true;
-    if (down_wasPressed && ri.up && ri.down && !up_wasPressed) down_outlawUntilRelease=true;
+    if (socd == SOCD_NEUTRAL) {
+        /* Neutral */
+        if (ri.left && ri.right) {
+            ri.left = false;
+            ri.right = false;
+        }
+        if (ri.down && ri.up) {
+            ri.down = false;
+            ri.up = false;
+        }
+    } else if (socd == SOCD_2IP_NO_REAC) {
+        /* 2nd Input Priority no reactivation */
+        if (left_wasPressed && ri.left && ri.right && !right_wasPressed) left_outlawUntilRelease=true;
+        if (right_wasPressed && ri.left && ri.right && !left_wasPressed) right_outlawUntilRelease=true;
+        if (up_wasPressed && ri.up && ri.down && !down_wasPressed) up_outlawUntilRelease=true;
+        if (down_wasPressed && ri.up && ri.down && !up_wasPressed) down_outlawUntilRelease=true;
 
-    if (!ri.left) left_outlawUntilRelease=false;
-    if (!ri.right) right_outlawUntilRelease=false;
-    if (!ri.up) up_outlawUntilRelease=false;
-    if (!ri.down) down_outlawUntilRelease=false;
+        if (!ri.left) left_outlawUntilRelease=false;
+        if (!ri.right) right_outlawUntilRelease=false;
+        if (!ri.up) up_outlawUntilRelease=false;
+        if (!ri.down) down_outlawUntilRelease=false;
 
-    left_wasPressed = ri.left;
-    right_wasPressed = ri.right;
-    up_wasPressed = ri.up;
-    down_wasPressed = ri.down;
+        left_wasPressed = ri.left;
+        right_wasPressed = ri.right;
+        up_wasPressed = ri.up;
+        down_wasPressed = ri.down;
 
-    if (left_outlawUntilRelease) ri.left=false;
-    if (right_outlawUntilRelease) ri.right=false;
-    if (up_outlawUntilRelease) ri.up=false;
-    if (down_outlawUntilRelease) ri.down=false;
+        if (left_outlawUntilRelease) ri.left=false;
+        if (right_outlawUntilRelease) ri.right=false;
+        if (up_outlawUntilRelease) ri.up=false;
+        if (down_outlawUntilRelease) ri.down=false;
+    }
     
     /* Stick */
 
@@ -70,7 +88,7 @@ void makeReport(const RectangleInput &rectangleInput, gc_report_t *report) {
     Coords xy;
 
     if (vertical && horizontal) {
-        if (ri.l || ri.r) {
+        if (ri.l || ri.r || ri.ls || ri.ms) {
             if (ri.mx == ri.my) xy = coords(0.7, readUp ? 0.7 : 0.6875);
             else if (ri.mx) xy = coords(0.6375, 0.375);
             else xy = (banParasolDashing && readUp) ? coords(0.475, 0.875) : coords(0.5, 0.85);
