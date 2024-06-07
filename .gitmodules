@@ -1,3 +1,3 @@
 [submodule "lib/joybus-pio"]
 	path = lib/joybus-pio
-	url = git@github.com:JonnyHaystack/joybus-pio.git
+	url = https://github.com/JonnyHaystack/joybus-pio.git
