@@ -26,8 +26,13 @@ endif()
 
 add_compile_definitions(
     GC_DATA_PIN=${GC_DATA_PIN}
-    GC_3V3_PIN=${GC_3V3_PIN}
 )
+
+if (DEFINED ENV{GC_3V3_PIN})
+    add_compile_definitions(
+        GC_3V3_PIN=${GC_3V3_PIN}
+    )
+endif ()
 
 include_directories(
     include
