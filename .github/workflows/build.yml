@@ -51,6 +51,7 @@ jobs:
     - name: Build ${{ matrix.hardware_revision }}
       run: |
         mkdir -p build && cd build
+        cmake --version
         cmake .. && make
         ls -lah
         mv GameKeeb.uf2 "../${ARTIFACT_NAME}"
