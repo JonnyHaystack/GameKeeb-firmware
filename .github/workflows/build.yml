@@ -8,7 +8,7 @@ jobs:
     permissions:
       contents: write
     env:
-      PICO_SDK_PATH: ./pico-sdk
+      PICO_SDK_PATH: ${{ github.workspace}}/pico-sdk
       VERSION_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
       HARDWARE_REVISION: ${{ matrix.hardware_revision }}
       GC_DATA_PIN: ${{ matrix.gc_data_pin }}
