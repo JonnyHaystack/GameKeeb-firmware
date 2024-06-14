@@ -37,6 +37,7 @@ jobs:
         repository: raspberrypi/pico-sdk
         path: ${{ env.PICO_SDK_PATH }}
         ref: 1.5.1
+        submodules: true
 
     - name: Install build dependencies
       run: |
@@ -52,7 +53,7 @@ jobs:
         mkdir -p build && cd build
         cmake .. && make
         ls -lah
-        mv build/GameKeeb.uf2 "../${ARTIFACT_NAME}"
+        mv GameKeeb.uf2 "../${ARTIFACT_NAME}"
 
     - name: Publish ${{ matrix.hardware_revision }} artifact
       uses: actions/upload-artifact@v3
