@@ -11,7 +11,7 @@
         "GC_DATA_PIN": "0",
         "GC_3V3_PIN": "1"
     },
-    "onCreateCommand": "git clone --recursive pico-sdk ~/pico-sdk",
+    "onCreateCommand": "git clone --recursive https://github.com/raspberrypi/pico-sdk ~/pico-sdk",
     "customizations": {
         "vscode": {
             "settings": {
