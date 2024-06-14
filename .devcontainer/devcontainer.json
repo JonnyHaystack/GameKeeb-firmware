@@ -3,7 +3,7 @@
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
     "features": {
         "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-            "packages": "clang-format-14"
+            "packages": "cmake,gcc-arm-none-eabi,libnewlib-arm-none-eabi,libstdc++-arm-none-eabi-newlib,clang-format-14"
         }
     },
     "containerEnv": {
