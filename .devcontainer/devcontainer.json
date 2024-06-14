@@ -1,0 +1,31 @@
+{
+    "name": "GameKeeb",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+        "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+            "packages": "clang-format-14"
+        }
+    },
+    "containerEnv": {
+        "PICO_SDK_PATH": "~/pico-sdk",
+        "GC_DATA_PIN": "0",
+        "GC_3V3_PIN": "1"
+    },
+    "onCreateCommand": "git clone --recursive pico-sdk ~/pico-sdk",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "workbench.colorTheme": "Default Dark+",
+                "git.autofetch": true,
+                "editor.defaultFormatter": "xaver.clang-format",
+                "clang-format.executable": "clang-format-14",
+                "editor.formatOnSave": true
+            },
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "xaver.clang-format"
+            ]
+        }
+    }
+}
