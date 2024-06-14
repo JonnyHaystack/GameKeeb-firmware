@@ -13,26 +13,6 @@
 #include "pico/multicore.h"
 #include "pico/time.h"
 
-#define REV1 10
-#define REV2 20
-#define REV2_2 22
-
-#define REVISION REV2
-#define WONKY false
-
-#if REVISION == REV1
-#define GC_DATA_PIN 0
-#elif REVISION == REV2 && !WONKY
-#define GC_DATA_PIN 0
-#define GC_3V3_PIN 1
-#elif REVISION == REV2 && WONKY
-#define GC_DATA_PIN 1
-#define GC_3V3_PIN 0
-#elif REVISION == REV2_2
-#define GC_DATA_PIN 28
-#define GC_3V3_PIN 27
-#endif
-
 #define LED_PIN 25
 
 #define NUMBER_OF_INPUTS 24
@@ -58,15 +38,16 @@ int main() {
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, 1);
 
-#if REVISION >= REV2
+#ifdef GC_3V3_PIN
     gpio_init(GC_3V3_PIN);
     gpio_set_dir(GC_3V3_PIN, GPIO_IN);
     gpio_pull_down(GC_3V3_PIN);
 
     sleep_ms(200);
 
-    if (!gpio_get(GC_3V3_PIN))
+    if (!gpio_get(GC_3V3_PIN)) {
         reset_usb_boot(0, 0);
+    }
 #endif
 
     initLogic(ParasolDashing::BAN, SlightSideB::BAN);

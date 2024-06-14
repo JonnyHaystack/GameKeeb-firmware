@@ -24,6 +24,11 @@ else()
     message("Git not found or not a git repo")
 endif()
 
+add_compile_definitions(
+    GC_DATA_PIN=${GC_DATA_PIN}
+    GC_3V3_PIN=${GC_3V3_PIN}
+)
+
 include_directories(
     include
     lib/joybus-pio/include

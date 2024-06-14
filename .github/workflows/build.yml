@@ -1,0 +1,68 @@
+name: CMake Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      PICO_SDK_PATH: ./pico-sdk
+      VERSION_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+      HARDWARE_REVISION: ${{ matrix.hardware_revision }}
+      GC_DATA_PIN: ${{ matrix.gc_data_pin }}
+      GC_3V3_PIN: ${{ matrix.gc_3v3_pin }}
+    strategy:
+      matrix:
+        include:
+          - hardware_revision: rev1
+            gc_data_pin: 0
+          - hardware_revision: rev2
+            gc_data_pin: 0
+            gc_3v3_pin: 1
+          - hardware_revision: rev2.2
+            gc_data_pin: 28
+            gc_3v3_pin: 27
+
+    steps:
+    - name: Check out source code
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - uses: actions/checkout@v4
+      name: Checkout pico sdk
+      with:
+        repository: raspberrypi/pico-sdk
+        path: ${{ env.PICO_SDK_PATH }}
+        ref: 1.5.1
+
+    - name: Install build dependencies
+      run: |
+        sudo apt update
+        sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+
+    - name: Set artifact filename environment variable
+      run: |
+        echo "ARTIFACT_NAME=GameKeeb-${HARDWARE_REVISION}-${VERSION_REF}.uf2" >> "$GITHUB_ENV"
+
+    - name: Build ${{ matrix.hardware_revision }}
+      run: |
+        mkdir -p build && cd build
+        cmake .. && make
+        ls -lah
+        mv build/GameKeeb.uf2 "../${ARTIFACT_NAME}"
+
+    - name: Publish ${{ matrix.hardware_revision }} artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: ${{ env.ARTIFACT_NAME }}
+        if-no-files-found: error
+
+    - name: Upload binaries to release
+      uses: softprops/action-gh-release@v1
+      if: github.ref_type == 'tag'
+      with:
+        files: ${{ env.ARTIFACT_NAME }}
